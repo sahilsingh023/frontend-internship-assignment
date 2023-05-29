@@ -1,5 +1,9 @@
+
+
+
 <div class="header">
   <div class="tw-text-24-px tw-font-600">Open Books Library</div>
+
   <div class="search-button">
     <mat-icon class="tw-mt-16-px" aria-label="Search Icon">search</mat-icon>
     <input
@@ -7,17 +11,82 @@
       name="searchKey"
       type="text"
       placeholder="Search Books"
+      keyup.enter="search()"
       class="tw-border-0 tw-bg-inherit"
+    />
+    <mat-icon class="tw-mt-16-px" aria-label="Clear Icon" (click)="clear()"
+      >close</mat-icon
     >
   </div>
 </div>
+
 <div class="tw-flex tw-flex-row tw-m-24-px">
   <section class="trending-subjects">
     <div class="tw-font-600 tw-text-24-px">Trending Subjects</div>
     <ul class="tw-list-none tw-pl-0">
-      <li class="tw-text-16-px tw-cursor-pointer tw-p-12-px" *ngFor="let subject of trendingSubjects" routerLink="/trending-subject/{{ subject.name }}">
+      <li
+        class="tw-text-16-px tw-cursor-pointer tw-p-12-px"
+        *ngFor="let subject of trendingSubjects"
+        routerLink="/trending-subject/{{ subject.name }}"
+      >
         {{ subject.name }}
       </li>
     </ul>
   </section>
+  <div class="tw-w-full">
+    <div class="tw-w-full">
+      Items per Page:
+      <select (change)="handlePageSizeChange($event)">
+        <option *ngFor="let size of pageSizes" [ngValue]="size">
+          {{ size }}
+        </option>
+      </select>
+    </div>
+    <table class="table-view">
+      <thead>
+        <tr class="table-row">
+          <th class="table-header">Title and Sub Title</th>
+          <th class="table-header">Author</th>
+          <th class="table-header">First Publish Year</th>
+        </tr>
+      </thead>
+      <tbody class="table-body">
+        <tr
+          *ngFor="
+            let book of searchResults
+              | paginate
+                : {
+                    itemsPerPage: pageSize,
+                    currentPage: page,
+                    totalItems: count
+                  }
+          "
+          class="row-data"
+        >
+          <td>
+            <a
+              class="tw-no-underline"
+              href="https://openlibrary.org{{ book.key }}"
+              target="_blank"
+              >{{ book.title }}</a
+            >
+          </td>
+          <td>
+            {{ book.author_name?.length > 0 ? book.author_name[0] : 'Unknown' }}
+          </td>
+          <td>{{ book.first_publish_year }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <div class="tw-w-full">
+          <pagination-controls
+            previousLabel="Prev"
+            nextLabel="Next"
+            [responsive]="true"
+            (pageChange)="handlePageChange($event)"
+          ></pagination-controls>
+        </div>
+      </tfoot>
+    </table>
+  </div>
 </div>
