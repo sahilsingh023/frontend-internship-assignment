@@ -94,6 +94,11 @@ export class HomeComponent implements OnInit {
     this.count = 0;
   }
 
+    clearSearch() {
+      this.searchResults = '';
+    }
+  
+
   handlePageSizeChange(event: any): void {
     this.pageSize = event.target.value;
     this.page = 1;
