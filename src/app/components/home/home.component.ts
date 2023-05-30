@@ -2,7 +2,6 @@ import { ApiService } from './../../core/services/api.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, filter } from 'rxjs';
-import { Location } from '@angular/common';
 
 
 @Component({
@@ -19,9 +18,12 @@ export class HomeComponent implements OnInit {
   pageSize = 10;
   pageSizes = [10, 50, 100];
 
-  constructor(private apiservice: ApiService) {
-    this.bookSearch = new FormControl('');
+  
 
+
+  constructor(private apiservice: ApiService) {
+    
+     this.bookSearch = new FormControl('');
   }
 
   trendingSubjects: Array<any> = [
