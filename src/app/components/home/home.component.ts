@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   pageSize = 10;
   pageSizes = [10, 50, 100];
   searchHistory: never[] = [];
-showBackButton: any;
+
 
   
 
