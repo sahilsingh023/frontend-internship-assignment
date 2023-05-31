@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
   count = 0;
   pageSize = 10;
   pageSizes = [10, 50, 100];
+  searchHistory: never[] = [];
+showBackButton: any;
 
   
 
@@ -46,7 +48,7 @@ export class HomeComponent implements OnInit {
           this.page = 1;
           this.title = value;
           this.search();
-        }
+          } 
       });
 
   }
@@ -82,6 +84,7 @@ export class HomeComponent implements OnInit {
         (data: any) => {
           this.searchResults = data.docs;
           this.count = data.num_found;
+          
         },
         error => console.log(error)
       )
@@ -92,11 +95,10 @@ export class HomeComponent implements OnInit {
     this.searchResults = [];
     this.page = 1;
     this.count = 0;
+    this.searchHistory = [];
+    
   }
 
-    clearSearch() {
-      this.searchResults = '';
-    }
   
 
   handlePageSizeChange(event: any): void {
@@ -109,6 +111,9 @@ export class HomeComponent implements OnInit {
     this.page = event;
     this.search();
   }
+
+  
+  
 }
 
 
