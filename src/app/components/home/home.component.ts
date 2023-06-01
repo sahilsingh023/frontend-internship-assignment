@@ -2,6 +2,8 @@ import { ApiService } from './../../core/services/api.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, filter } from 'rxjs';
+import { Location } from '@angular/common';
+
 
 
 @Component({
@@ -18,12 +20,10 @@ export class HomeComponent implements OnInit {
   pageSize = 10;
   pageSizes = [10, 50, 100];
   searchHistory: never[] = [];
+  isSearchResultsVisible = false;
 
 
-  
-
-
-  constructor(private apiservice: ApiService) {
+  constructor(private apiservice: ApiService, private location: Location) {
     
      this.bookSearch = new FormControl('');
   }
@@ -48,7 +48,11 @@ export class HomeComponent implements OnInit {
           this.page = 1;
           this.title = value;
           this.search();
-          } 
+          this.isSearchResultsVisible = true;
+          } else {
+            this.clear();
+            this.isSearchResultsVisible = false;
+          }
       });
 
   }
@@ -96,7 +100,6 @@ export class HomeComponent implements OnInit {
     this.page = 1;
     this.count = 0;
     this.searchHistory = [];
-    
   }
 
   
@@ -112,7 +115,15 @@ export class HomeComponent implements OnInit {
     this.search();
   }
 
-  
+  clearSearch() {
+    throw new Error('Method not implemented.');
+  }
+
+  goBack(): void {
+    this.clear();
+    this.isSearchResultsVisible = false;
+    this.location.back();
+  }
   
 }
 
